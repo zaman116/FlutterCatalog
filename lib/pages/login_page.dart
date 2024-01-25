@@ -2,8 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cubit/utills/routes.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool changeButton = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +44,40 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 40),
-                    ElevatedButton(
+                    /*ElevatedButton(
                       style: TextButton.styleFrom(minimumSize: const Size(250, 40)),
                       onPressed: (){
                        Navigator.pushNamed(context, MyRoutes.homeRoute);
                       },
                       child: const Text("Login"),
-                    ),
+                    ),*/
+                    InkWell(
+                      onTap: () async {
+                        setState(() {
+                          changeButton = true;
+                        });
+                        await Future.delayed(const Duration(seconds: 1));
+                        Navigator.pushNamed(context, MyRoutes.homeRoute);
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(seconds: 1),
+                        width: changeButton? 50 : 150,
+                        height: 50,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(changeButton? 50 : 8),
+                          color: Colors.deepPurple,
+                        ),
+                        child: changeButton?
+                        const Icon(Icons.done, color: Colors.white,) :
+                        const Text('Login', style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
+                        ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               )
